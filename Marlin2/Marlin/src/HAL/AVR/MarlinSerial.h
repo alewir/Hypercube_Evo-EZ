@@ -205,7 +205,7 @@
     static ring_buffer_pos_t available();
     static void write(const uint8_t c);
     static void flushTX();
-    #if ANY(HAS_DGUS_LCD, EXTENSIBLE_UI)
+    #if HAS_DGUS_LCD
       static ring_buffer_pos_t get_tx_buffer_free();
     #endif
 

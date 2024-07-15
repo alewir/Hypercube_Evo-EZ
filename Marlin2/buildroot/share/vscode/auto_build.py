@@ -72,7 +72,7 @@
 from __future__ import print_function
 from __future__ import division
 
-import sys, os, re
+import sys,os,re
 
 pwd = os.getcwd()  # make sure we're executing from the correct directory level
 pwd = pwd.replace('\\', '/')
@@ -103,7 +103,7 @@ current_OS = platform.system()
 target_env = ''
 board_name = ''
 
-from datetime import datetime
+from datetime import datetime, date, time
 
 #########
 #  Python 2 error messages:
@@ -150,6 +150,8 @@ def get_answer(board_name, question_txt, options, default_value=1):
 
   root_get_answer.protocol("WM_DELETE_WINDOW", disable_event)
   root_get_answer.resizable(False, False)
+
+  root_get_answer.radio_state = default_value  # declare variables used by TK and enable
 
   global get_answer_val
   get_answer_val = default_value  # return get_answer_val, set default to match radio_state default
@@ -878,6 +880,7 @@ def run_PIO(dummy):
   print('build_type:  ', build_type)
 
   import subprocess
+  import sys
 
   print('starting platformio')
 
@@ -962,6 +965,7 @@ def run_PIO(dummy):
 
 ########################################################################
 
+import time
 import threading
 if python_ver == 2:
   import Tkinter as tk
@@ -974,6 +978,7 @@ else:
   import tkinter as tk
   import queue as queue
   from tkinter import ttk, Tk, Frame, Text, Menu
+import subprocess
 import sys
 que = queue.Queue()
 #IO_queue = queue.Queue()

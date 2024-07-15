@@ -64,10 +64,10 @@
       if (parser.seenval('L')) {
         // Set volumetric limit (in mm^3/sec)
         const float lval = parser.value_float();
-        if (WITHIN(lval, 0, VOLUMETRIC_EXTRUDER_LIMIT_MAX))
+        if (WITHIN(lval, 0, 20))
           planner.set_volumetric_extruder_limit(target_extruder, lval);
         else
-          SERIAL_ECHOLNPGM(GCODE_ERR_MSG("L value out of range (0-" STRINGIFY(VOLUMETRIC_EXTRUDER_LIMIT_MAX) ")."));
+          SERIAL_ECHOLNPGM("?L value out of range (0-20).");
       }
     #endif
 
@@ -75,8 +75,6 @@
   }
 
   void GcodeSuite::M200_report(const bool forReplay/*=true*/) {
-    TERN_(MARLIN_SMALL_BUILD, return);
-
     if (!forReplay) {
       report_heading(forReplay, F(STR_FILAMENT_SETTINGS), false);
       if (!parser.volumetric_enabled) SERIAL_ECHOPGM(" (Disabled):");
@@ -144,8 +142,6 @@ void GcodeSuite::M201() {
 }
 
 void GcodeSuite::M201_report(const bool forReplay/*=true*/) {
-  TERN_(MARLIN_SMALL_BUILD, return);
-
   report_heading_etc(forReplay, F(STR_MAX_ACCELERATION));
   #if NUM_AXES
     SERIAL_ECHOPGM_P(
@@ -202,8 +198,6 @@ void GcodeSuite::M203() {
 }
 
 void GcodeSuite::M203_report(const bool forReplay/*=true*/) {
-  TERN_(MARLIN_SMALL_BUILD, return);
-
   report_heading_etc(forReplay, F(STR_MAX_FEEDRATES));
   #if NUM_AXES
     SERIAL_ECHOPGM_P(
@@ -261,8 +255,6 @@ void GcodeSuite::M204() {
 }
 
 void GcodeSuite::M204_report(const bool forReplay/*=true*/) {
-  TERN_(MARLIN_SMALL_BUILD, return);
-
   report_heading_etc(forReplay, F(STR_ACCELERATION_P_R_T));
   SERIAL_ECHOLNPGM_P(
       PSTR("  M204 P"), LINEAR_UNIT(planner.settings.acceleration)
@@ -309,13 +301,13 @@ void GcodeSuite::M205() {
       const float junc_dev = parser.value_linear_units();
       if (WITHIN(junc_dev, 0.01f, 0.3f)) {
         planner.junction_deviation_mm = junc_dev;
-        TERN_(HAS_LINEAR_E_JERK, planner.recalculate_max_e_jerk());
+        TERN_(LIN_ADVANCE, planner.recalculate_max_e_jerk());
       }
       else
         SERIAL_ERROR_MSG("?J out of range (0.01 to 0.3)");
     }
   #endif
-  #if ENABLED(CLASSIC_JERK)
+  #if HAS_CLASSIC_JERK
     bool seenZ = false;
     LOGICAL_AXIS_CODE(
       if (parser.seenval('E')) planner.set_max_jerk(E_AXIS, parser.value_linear_units()),
@@ -333,16 +325,14 @@ void GcodeSuite::M205() {
       if (seenZ && planner.max_jerk.z <= 0.1f)
         SERIAL_ECHOLNPGM("WARNING! Low Z Jerk may lead to unwanted pauses.");
     #endif
-  #endif // CLASSIC_JERK
+  #endif // HAS_CLASSIC_JERK
 }
 
 void GcodeSuite::M205_report(const bool forReplay/*=true*/) {
-  TERN_(MARLIN_SMALL_BUILD, return);
-
   report_heading_etc(forReplay, F(
     "Advanced (" M205_MIN_SEG_TIME_STR "<min_segment_time_us> S<min_feedrate> T<min_travel_feedrate>"
     TERN_(HAS_JUNCTION_DEVIATION, " J<junc_dev>")
-    #if ENABLED(CLASSIC_JERK)
+    #if HAS_CLASSIC_JERK
       NUM_AXIS_GANG(
         " X<max_jerk>", " Y<max_jerk>", " Z<max_jerk>",
         " " STR_I "<max_jerk>", " " STR_J "<max_jerk>", " " STR_K "<max_jerk>",
@@ -359,7 +349,7 @@ void GcodeSuite::M205_report(const bool forReplay/*=true*/) {
     #if HAS_JUNCTION_DEVIATION
       , PSTR(" J"), LINEAR_UNIT(planner.junction_deviation_mm)
     #endif
-    #if ENABLED(CLASSIC_JERK) && NUM_AXES
+    #if HAS_CLASSIC_JERK
       , LIST_N(DOUBLE(NUM_AXES),
         SP_X_STR, LINEAR_UNIT(planner.max_jerk.x),
         SP_Y_STR, LINEAR_UNIT(planner.max_jerk.y),

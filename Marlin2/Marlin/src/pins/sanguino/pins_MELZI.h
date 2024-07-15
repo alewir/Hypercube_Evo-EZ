@@ -23,7 +23,8 @@
 
 /**
  * Melzi pin assignments
- * Schematic: https://github.com/mosfet/melzi/blob/master/melzi.sch
+ * Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/Melzi/schematic.pdf
+ * Origin: https://github.com/mosfet/melzi/blob/master/melzi.sch
  */
 
 #ifndef BOARD_INFO_NAME

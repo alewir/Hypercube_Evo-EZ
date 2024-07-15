@@ -78,13 +78,6 @@
 #endif
 
 //
-// Probe enable
-//
-#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
-  #define PROBE_ENABLE_PIN            SERVO0_PIN
-#endif
-
-//
 // Filament Runout Sensor
 //
 #define FIL_RUNOUT_PIN                      PE5   // "Pulled-high"

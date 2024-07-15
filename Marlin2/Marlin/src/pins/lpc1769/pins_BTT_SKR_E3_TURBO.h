@@ -23,7 +23,8 @@
 
 /**
  * BigTreeTech SKR E3 Turbo pin assignments
- * Schematic: https://github.com/bigtreetech/BIGTREETECH-SKR-E3-Turbo/blob/master/Hardware/BTT%20SKR%20E3%20Turbo-SCH.pdf
+ * Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/BTT%20SKR%20E3%20Turbo/BTT%20SKR%20E3%20Turbo-SCH.pdf
+ * Origin: https://github.com/bigtreetech/BIGTREETECH-SKR-E3-Turbo/blob/master/Hardware/BTT%20SKR%20E3%20Turbo-SCH.pdf
  */
 
 #include "env_validate.h"
@@ -66,13 +67,6 @@
 #endif
 
 //
-// Probe enable
-//
-#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
-  #define PROBE_ENABLE_PIN            SERVO0_PIN
-#endif
-
-//
 // Filament Runout Sensor
 //
 #define FIL_RUNOUT_PIN                     P1_26  // E0DET
@@ -86,8 +80,8 @@
 #endif
 
 // LED driving pin
-#ifndef BOARD_NEOPIXEL_PIN
-  #define BOARD_NEOPIXEL_PIN               P1_24
+#ifndef NEOPIXEL_PIN
+  #define NEOPIXEL_PIN                     P1_24
 #endif
 
 //
@@ -218,8 +212,9 @@
 #define EXP1_08_PIN                        P0_18
 
 #if HAS_DWIN_E3V2 || IS_DWIN_MARLINUI
-
-  CONTROLLER_WARNING("BTT_SKR_E3_TURBO", "Ender-3 V2 display", " Requires a custom cable with TX = P0_15, RX = P0_16.")
+  #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+    #error "CAUTION! Ender-3 V2 display requires a custom cable with TX = P0_15, RX = P0_16. See 'pins_BTT_SKR_E3_TURBO.h' for details. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+  #endif
 
  /**
   *          Ender-3 V2 display                       SKR E3 Turbo (EXP1)                Ender-3 V2 display --> SKR E3 Turbo
@@ -253,7 +248,9 @@
 
   #elif ENABLED(ZONESTAR_LCD)                     // ANET A8 LCD Controller - Must convert to 3.3V - CONNECTING TO 5V WILL DAMAGE THE BOARD!
 
-    CONTROLLER_WARNING("BTT_SKR_E3_TURBO", "ZONESTAR_LCD")
+    #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+      #error "CAUTION! ZONESTAR_LCD requires wiring modifications. See 'pins_BTT_SKR_E3_TURBO.h' for details. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+    #endif
 
     #define LCD_PINS_RS              EXP1_06_PIN
     #define LCD_PINS_EN              EXP1_02_PIN

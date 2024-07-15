@@ -164,11 +164,11 @@ public:
   #if ENABLED(LED_CONTROL_MENU)
     static void toggle();  // swap "off" with color
   #endif
-  #if ANY(LED_CONTROL_MENU, CASE_LIGHT_USE_RGB_LED, HAS_LED_POWEROFF_TIMEOUT)
+  #if ANY(LED_CONTROL_MENU, CASE_LIGHT_USE_RGB_LED) || LED_POWEROFF_TIMEOUT > 0
     static void update() { set_color(color); }
   #endif
 
-  #if HAS_LED_POWEROFF_TIMEOUT
+  #if LED_POWEROFF_TIMEOUT > 0
     private:
       static millis_t led_off_time;
     public:

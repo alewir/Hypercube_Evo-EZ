@@ -3,9 +3,10 @@
 #
 import pioutil
 if pioutil.is_pio_build():
-    import shutil, marlin
+    import shutil,marlin
     from pathlib import Path
-    env = pioutil.env
+
+    Import("env")
     platform = env.PioPlatform()
     board = env.BoardConfig()
 

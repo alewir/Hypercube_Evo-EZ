@@ -27,13 +27,6 @@ def rpad(astr, fill, c=' '):
     need = fill - len(astr)
     return astr if need <= 0 else astr + (need * c)
 
-# Concatenate a string, adding a space if necessary
-# to avoid merging two words
-def concat_with_space(s1, s2):
-    if not s1.endswith(' ') and not s2.startswith(' '):
-        s1 += ' '
-    return s1 + s2
-
 # Pin patterns
 mpatt = [ r'-?\d{1,3}', r'P[A-I]\d+', r'P\d_\d+', r'Pin[A-Z]\d\b' ]
 mstr = '|'.join(mpatt)
@@ -52,7 +45,6 @@ def format_pins(argv):
     scnt = 0
     for arg in argv:
         if arg == '-v':
-            global do_log
             do_log = True
         elif scnt == 0:
             # Get a source file if specified. Default destination is the same file
@@ -143,7 +135,7 @@ def process_text(txt):
         logmsg("pin:", line)
         pinnum = r[4] if r[4][0] == 'P' else lpad(r[4], patt['pad'])
         line = f'{r[1]} {r[3]}'
-        line = concat_with_space(rpad(line, col_value_lj), pinnum)
+        line = rpad(line, col_value_lj) + pinnum
         if r[5]: line = rpad(line, col_comment) + r[5]
         d['line'] = line
         return True
@@ -157,7 +149,7 @@ def process_text(txt):
         if r == None: return False
         logmsg("pin -1:", line)
         line = f'{r[1]} {r[3]}'
-        line = concat_with_space(rpad(line, col_value_lj), '-1')
+        line = rpad(line, col_value_lj) + '-1'
         if r[5]: line = rpad(line, col_comment) + r[5]
         d['line'] = line
         return True
@@ -187,8 +179,8 @@ def process_text(txt):
         if r == None: return False
         logmsg("alias:", line)
         line = f'{r[1]} {r[3]}'
-        line = concat_with_space(line, lpad(r[4], col_value_rj + 1 - len(line)))
-        if r[5]: line = concat_with_space(rpad(line, col_comment), r[5])
+        line += lpad(r[4], col_value_rj + 1 - len(line))
+        if r[5]: line = rpad(line, col_comment) + r[5]
         d['line'] = line
         return True
 
@@ -201,7 +193,7 @@ def process_text(txt):
         if r == None: return False
         logmsg("switch:", line)
         line = f'{r[1]} {r[3]}'
-        if r[4]: line = concat_with_space(rpad(line, col_comment), r[4])
+        if r[4]: line = rpad(line, col_comment) + r[4]
         d['line'] = line
         d['check_comment_next'] = True
         return True
@@ -215,7 +207,7 @@ def process_text(txt):
         if r == None: return False
         logmsg("def:", line)
         line = f'{r[1]} {r[3]} '
-        line = concat_with_space(line, lpad(r[4], col_value_rj + 1 - len(line)))
+        line += lpad(r[4], col_value_rj + 1 - len(line))
         if r[5]: line = rpad(line, col_comment - 1) + ' ' + r[5]
         d['line'] = line
         return True
@@ -229,7 +221,7 @@ def process_text(txt):
         if r == None: return False
         logmsg("undef:", line)
         line = f'{r[1]} {r[3]}'
-        if r[4]: line = concat_with_space(rpad(line, col_comment), r[4])
+        if r[4]: line = rpad(line, col_comment) + r[4]
         d['line'] = line
         return True
 
@@ -241,7 +233,7 @@ def process_text(txt):
         r = condPatt.match(line)
         if r == None: return False
         logmsg("cond:", line)
-        line = concat_with_space(rpad(r[1], col_comment), r[5])
+        line = rpad(r[1], col_comment) + r[5]
         d['line'] = line
         d['check_comment_next'] = True
         return True
@@ -271,7 +263,7 @@ def process_text(txt):
         elif tryUndef(wDict):   pass  #undef ...
         elif tryCond(wDict):    pass  #if|ifdef|ifndef|elif ...
 
-        out += wDict['line'].rstrip() + '\n'
+        out += wDict['line'] + '\n'
 
     return re.sub('\n\n$', '\n', re.sub(r'\n\n+', '\n\n', out))
 

@@ -23,7 +23,8 @@
 
 /**
  * AZTEEG_X3 Arduino Mega with RAMPS v1.4 pin assignments
- * Schematic: http://files.panucatt.com/datasheets/azteegx3_designfiles.zip
+ * Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/AZTEEG_X3/AZTEEG%20X3%20PUB%20v1.12.pdf
+ * Origin: http://files.panucatt.com/datasheets/azteegx3_designfiles.zip
  * ATmega2560
  */
 

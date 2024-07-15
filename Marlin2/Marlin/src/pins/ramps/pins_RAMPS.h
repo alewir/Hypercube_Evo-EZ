@@ -320,29 +320,17 @@
 #endif
 
 //
-// TMC SPI
+// TMC software SPI
 //
 #if HAS_TMC_SPI
-  #if ENABLED(TMC_USE_SW_SPI)
-    #ifndef TMC_SPI_MOSI
-      #define TMC_SPI_MOSI               AUX2_09
-    #endif
-    #ifndef TMC_SPI_MISO
-      #define TMC_SPI_MISO               AUX2_07
-    #endif
-    #ifndef TMC_SPI_SCK
-      #define TMC_SPI_SCK                AUX2_05
-    #endif
-  #else
-    #ifndef TMC_SPI_MOSI
-      #define TMC_SPI_MOSI               AUX3_04
-    #endif
-    #ifndef TMC_SPI_MISO
-      #define TMC_SPI_MISO               AUX3_03
-    #endif
-    #ifndef TMC_SPI_SCK
-      #define TMC_SPI_SCK                AUX3_05
-    #endif
+  #ifndef TMC_SPI_MOSI
+    #define TMC_SPI_MOSI                 AUX2_09
+  #endif
+  #ifndef TMC_SPI_MISO
+    #define TMC_SPI_MISO                 AUX2_07
+  #endif
+  #ifndef TMC_SPI_SCK
+    #define TMC_SPI_SCK                  AUX2_05
   #endif
 #endif
 
@@ -645,7 +633,9 @@
 
     #elif ENABLED(ZONESTAR_LCD)
 
-      CONTROLLER_WARNING("RAMPS", "ZONESTAR_LCD", " Plugs into AUX2 but GND and 5V must be swapped.")
+      #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+        #error "CAUTION! ZONESTAR_LCD on RAMPS requires wiring modifications. It plugs into AUX2 but GND and 5V need to be swapped. See 'pins_RAMPS.h' for details. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+      #endif
 
       #define LCD_PINS_RS                AUX2_05
       #define LCD_PINS_EN                AUX2_07
@@ -934,7 +924,9 @@
 
 #if ALL(TOUCH_UI_FTDI_EVE, LCD_FYSETC_TFT81050)
 
-  CONTROLLER_WARNING("RAMPS", "LCD_FYSETC_TFT81050")
+  #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+    #error "CAUTION! LCD_FYSETC_TFT81050 requires wiring modifications. See 'pins_RAMPS.h' for details. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+  #endif
 
   /**
    * FYSETC TFT-81050 display pinout

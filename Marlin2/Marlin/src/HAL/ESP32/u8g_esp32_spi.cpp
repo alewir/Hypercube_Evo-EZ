@@ -25,7 +25,7 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#if U8G_HW_SPI_ESP32
+#if ANY(MKS_MINI_12864, FYSETC_MINI_12864_2_1)
 
 #include <U8glib-HAL.h>
 #include "../shared/HAL_SPI.h"
@@ -49,7 +49,7 @@ static SPISettings spiConfig;
   #endif
 #endif
 
-uint8_t u8g_esp32_hw_spi_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, void *arg_ptr) {
+uint8_t u8g_eps_hw_spi_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, void *arg_ptr) {
   static uint8_t msgInitCount = 2; // Ignore all messages until 2nd U8G_COM_MSG_INIT
 
   #if ENABLED(PAUSE_LCD_FOR_BUSY_SD)
@@ -100,5 +100,6 @@ uint8_t u8g_esp32_hw_spi_fn(u8g_t *u8g, uint8_t msg, uint8_t arg_val, void *arg_
   return 1;
 }
 
-#endif // U8G_HW_SPI_ESP32
+#endif // MKS_MINI_12864 || FYSETC_MINI_12864_2_1
+
 #endif // ARDUINO_ARCH_ESP32

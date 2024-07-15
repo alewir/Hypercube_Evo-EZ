@@ -263,14 +263,4 @@ public:
     analogWrite(pin, v);
   }
 
-  static void set_pwm_frequency(const pin_t, int) {}
-
-  #ifndef HAS_LIBBSD
-    /**
-     * Redirect missing strlcpy here
-     */
-    static size_t _strlcpy(char *dst, const char *src, size_t dsize);
-    #define strlcpy hal._strlcpy
-  #endif
-
 };

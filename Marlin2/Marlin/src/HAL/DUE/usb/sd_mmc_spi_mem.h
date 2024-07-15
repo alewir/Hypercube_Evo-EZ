@@ -74,7 +74,7 @@
 //!
 //! @brief This function initializes the hw/sw resources required to drive the SD_MMC_SPI.
 //!/
-void sd_mmc_spi_mem_init();
+extern void           sd_mmc_spi_mem_init(void);
 
 //!
 //! @brief This function tests the state of the SD_MMC memory and sends it to the Host.
@@ -87,7 +87,7 @@ void sd_mmc_spi_mem_init();
 //!   Media not present    ->    CTRL_NO_PRESENT
 //!   Media has changed    ->    CTRL_BUSY
 //!/
-Ctrl_status sd_mmc_spi_test_unit_ready();
+extern Ctrl_status    sd_mmc_spi_test_unit_ready(void);
 
 //!
 //! @brief This function gives the address of the last valid sector.
@@ -98,7 +98,7 @@ Ctrl_status sd_mmc_spi_test_unit_ready();
 //!   Media ready          ->  CTRL_GOOD
 //!   Media not present    ->  CTRL_NO_PRESENT
 //!/
-Ctrl_status sd_mmc_spi_read_capacity(uint32_t *nb_sector);
+extern Ctrl_status    sd_mmc_spi_read_capacity(uint32_t *nb_sector);
 
 /*! \brief Unload/Load the SD/MMC card selected
  *
@@ -109,7 +109,7 @@ Ctrl_status sd_mmc_spi_read_capacity(uint32_t *nb_sector);
  *
  * \return \c true if unload/load done success.
  */
-bool sd_mmc_spi_unload(bool unload);
+extern bool sd_mmc_spi_unload(bool unload);
 
 //!
 //! @brief This function returns the write protected status of the memory.
@@ -120,14 +120,14 @@ bool sd_mmc_spi_unload(bool unload);
 //!
 //! @return false  -> the memory is not write-protected (always)
 //!/
-bool sd_mmc_spi_wr_protect();
+extern bool           sd_mmc_spi_wr_protect(void);
 
 //!
 //! @brief This function tells if the memory has been removed or not.
 //!
 //! @return false  -> The memory isn't removed
 //!
-bool sd_mmc_spi_removal();
+extern bool           sd_mmc_spi_removal(void);
 
 //---- ACCESS DATA FUNCTIONS ----
 
@@ -147,7 +147,7 @@ bool sd_mmc_spi_removal();
 //!   It is ready    ->    CTRL_GOOD
 //!   A error occur  ->    CTRL_FAIL
 //!
-Ctrl_status sd_mmc_spi_usb_read_10(uint32_t addr, uint16_t nb_sector);
+extern Ctrl_status    sd_mmc_spi_usb_read_10(uint32_t addr, uint16_t nb_sector);
 
 //! This function initializes the SD/MMC memory for a write operation
 //!
@@ -161,7 +161,7 @@ Ctrl_status sd_mmc_spi_usb_read_10(uint32_t addr, uint16_t nb_sector);
 //!   It is ready    ->    CTRL_GOOD
 //!   An error occurs  ->    CTRL_FAIL
 //!
-Ctrl_status sd_mmc_spi_usb_write_10(uint32_t addr, uint16_t nb_sector);
+extern Ctrl_status    sd_mmc_spi_usb_write_10(uint32_t addr, uint16_t nb_sector);
 
 #endif // #if ACCESS_USB == true
 

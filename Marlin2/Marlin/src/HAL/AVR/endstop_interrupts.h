@@ -337,20 +337,12 @@ void setup_endstop_interrupts() {
       pciSetup(Z4_MIN_PIN);
     #endif
   #endif
-  #if USE_Z_MIN_PROBE
+  #if HAS_Z_MIN_PROBE_PIN
     #if (digitalPinToInterrupt(Z_MIN_PROBE_PIN) != NOT_AN_INTERRUPT)
       _ATTACH(Z_MIN_PROBE_PIN);
     #else
       static_assert(digitalPinHasPCICR(Z_MIN_PROBE_PIN), "Z_MIN_PROBE_PIN is not interrupt-capable. Disable ENDSTOP_INTERRUPTS_FEATURE to continue.");
       pciSetup(Z_MIN_PROBE_PIN);
-    #endif
-  #endif
-  #if USE_CALIBRATION
-    #if (digitalPinToInterrupt(CALIBRATION_PIN) != NOT_AN_INTERRUPT)
-      _ATTACH(CALIBRATION_PIN);
-    #else
-      static_assert(digitalPinHasPCICR(CALIBRATION_PIN), "CALIBRATION_PIN is not interrupt-capable. Disable ENDSTOP_INTERRUPTS_FEATURE to continue.");
-      pciSetup(CALIBRATION_PIN);
     #endif
   #endif
 

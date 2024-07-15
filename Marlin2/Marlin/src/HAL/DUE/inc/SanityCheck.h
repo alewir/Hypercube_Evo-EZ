@@ -70,10 +70,10 @@
  */
 #if HAS_MEDIA && HAS_DRIVER(TMC2130)
   #define _IS_HW_SPI(P) (defined(TMC_SPI_##P) && (TMC_SPI_##P == SD_MOSI_PIN || TMC_SPI_##P == SD_MISO_PIN || TMC_SPI_##P == SD_SCK_PIN))
-  #if DISABLED(SOFTWARE_SPI) && ENABLED(TMC_USE_SW_SPI) && (_IS_HW_SPI(MOSI) || _IS_HW_SPI(MISO) || _IS_HW_SPI(SCK))
+  #if DISABLED(DUE_SOFTWARE_SPI) && ENABLED(TMC_USE_SW_SPI) && (_IS_HW_SPI(MOSI) || _IS_HW_SPI(MISO) || _IS_HW_SPI(SCK))
     #error "DUE hardware SPI is required but is incompatible with TMC2130 software SPI. Either disable TMC_USE_SW_SPI or use separate pins for the two SPIs."
   #endif
-  #if ENABLED(SOFTWARE_SPI) && DISABLED(TMC_USE_SW_SPI)
+  #if ENABLED(DUE_SOFTWARE_SPI) && DISABLED(TMC_USE_SW_SPI)
     #error "DUE software SPI is required but is incompatible with TMC2130 hardware SPI. Enable TMC_USE_SW_SPI to fix."
   #endif
   #undef _IS_HW_SPI

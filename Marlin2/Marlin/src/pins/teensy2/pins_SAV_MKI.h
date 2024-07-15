@@ -26,7 +26,8 @@
  *
  *  Converted to Arduino pin numbering
  *
- *  Schematic: https://reprap.org/mediawiki/images/3/3c/SAV_MK-I.pdf
+ *  Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/SAV%20MkI/SAV_MK-I.pdf
+ *  Origin: https://reprap.org/mediawiki/images/3/3c/SAV_MK-I.pdf
  */
 
 /**

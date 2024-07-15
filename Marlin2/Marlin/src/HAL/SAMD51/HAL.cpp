@@ -76,7 +76,7 @@
   || GET_CHAMBER_ADC() == n \
   || GET_PROBE_ADC() == n \
   || GET_COOLER_ADC() == n \
-  || GET_BOARD_ADC() == n || GET_SOC_ADC() == n \
+  || GET_BOARD_ADC() == n \
   || GET_FILAMENT_WIDTH_ADC() == n \
   || GET_BUTTONS_ADC() == n \
   || GET_JOY_ADC_X() == n || GET_JOY_ADC_Y() == n || GET_JOY_ADC_Z() == n \
@@ -140,9 +140,6 @@ enum ADCIndex {
   #if GET_BOARD_ADC() == 0
     TEMP_BOARD,
   #endif
-  #if GET_SOC_ADC() == 0
-    TEMP_SOC,
-  #endif
   #if GET_FILAMENT_WIDTH_ADC() == 0
     FILWIDTH,
   #endif
@@ -205,9 +202,6 @@ enum ADCIndex {
   #endif
   #if GET_BOARD_ADC() == 1
     TEMP_BOARD,
-  #endif
-  #if GET_SOC_ADC() == 1
-    TEMP_SOC,
   #endif
   #if GET_FILAMENT_WIDTH_ADC() == 1
     FILWIDTH,
@@ -328,9 +322,6 @@ enum ADCIndex {
     #if GET_BOARD_ADC() == 0
       TEMP_BOARD_PIN,
     #endif
-    #if GET_SOC_ADC() == 0
-      TEMP_SOC_PIN,
-    #endif
     #if GET_FILAMENT_WIDTH_ADC() == 0
       FILWIDTH_PIN,
     #endif
@@ -393,9 +384,6 @@ enum ADCIndex {
     #endif
     #if GET_BOARD_ADC() == 1
       TEMP_BOARD_PIN,
-    #endif
-    #if GET_SOC_ADC() == 1
-      TEMP_SOC_PIN,
     #endif
     #if GET_FILAMENT_WIDTH_ADC() == 1
       FILWIDTH_PIN,
@@ -465,9 +453,6 @@ enum ADCIndex {
       #if GET_BOARD_ADC() == 0
         { PIN_TO_INPUTCTRL(TEMP_BOARD_PIN) },
       #endif
-      #if GET_SOC_ADC() == 0
-        { PIN_TO_INPUTCTRL(TEMP_SOC_PIN) },
-      #endif
       #if GET_FILAMENT_WIDTH_ADC() == 0
         { PIN_TO_INPUTCTRL(FILWIDTH_PIN) },
       #endif
@@ -536,9 +521,6 @@ enum ADCIndex {
       #endif
       #if GET_BOARD_ADC() == 1
         { PIN_TO_INPUTCTRL(TEMP_BOARD_PIN) },
-      #endif
-      #if GET_SOC_ADC() == 1
-        { PIN_TO_INPUTCTRL(TEMP_SOC_PIN) },
       #endif
       #if GET_FILAMENT_WIDTH_ADC() == 1
         { PIN_TO_INPUTCTRL(FILWIDTH_PIN) },

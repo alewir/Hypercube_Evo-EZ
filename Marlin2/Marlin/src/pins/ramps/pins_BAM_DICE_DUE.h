@@ -23,7 +23,8 @@
 
 /**
  * BAM&DICE Due (Arduino Mega) pin assignments
- * Schematic: http://www.2printbeta.de/download/2PRINTBETA-BAM&DICE-DUE-V1.1-sch.pdf
+ * Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/BAM&DICE%20Due/2PRINTBETA-BAM&DICE-DUE-V1.1-sch.pdf
+ * Origin: http://www.2printbeta.de/download/2PRINTBETA-BAM&DICE-DUE-V1.1-sch.pdf
  * ATmega2560, ATmega1280
  */
 

@@ -140,17 +140,11 @@ void setup_endstop_interrupts() {
     #endif
     _ATTACH(Z4_MIN_PIN);
   #endif
-  #if USE_Z_MIN_PROBE
+  #if HAS_Z_MIN_PROBE_PIN
     #if !LPC1768_PIN_INTERRUPT_M(Z_MIN_PROBE_PIN)
       #error "Z_MIN_PROBE_PIN is not INTERRUPT-capable. Disable ENDSTOP_INTERRUPTS_FEATURE to continue."
     #endif
     _ATTACH(Z_MIN_PROBE_PIN);
-  #endif
-  #if USE_CALIBRATION
-    #if !LPC1768_PIN_INTERRUPT_M(CALIBRATION_PIN)
-      #error "CALIBRATION_PIN is not INTERRUPT-capable. Disable ENDSTOP_INTERRUPTS_FEATURE to continue."
-    #endif
-    _ATTACH(CALIBRATION_PIN);
   #endif
   #if USE_I_MAX
     #if !LPC1768_PIN_INTERRUPT_M(I_MAX_PIN)

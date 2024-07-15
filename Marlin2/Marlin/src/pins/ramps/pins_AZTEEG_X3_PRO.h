@@ -23,7 +23,8 @@
 
 /**
  * AZTEEG_X3_PRO (Arduino Mega) pin assignments
- * Schematic: http://files.panucatt.com/datasheets/x3pro_sch_v1.0.zip
+ * Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/AZTEEG_X3_PRO/AZTEEG%20X3%20PRO%201.0%20PUB.pdf
+ * Origin: http://files.panucatt.com/datasheets/x3pro_sch_v1.0.zip
  * ATmega2560
  */
 

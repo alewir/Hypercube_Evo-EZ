@@ -48,7 +48,7 @@
   #define SD_MOSI_PIN       75
 #else
   // defaults
-  #define SOFTWARE_SPI
+  #define DUE_SOFTWARE_SPI
   #ifndef SD_SCK_PIN
     #define SD_SCK_PIN      52
   #endif

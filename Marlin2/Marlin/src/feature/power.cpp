@@ -34,10 +34,6 @@
 #include "../module/temperature.h"
 #include "../MarlinCore.h"
 
-#if ENABLED(MAX7219_REINIT_ON_POWERUP)
-  #include "max7219.h"
-#endif
-
 #if ENABLED(PS_OFF_SOUND)
   #include "../libs/buzzer.h"
 #endif
@@ -57,15 +53,7 @@ bool Power::psu_on;
     #include "controllerfan.h"
   #endif
 
-  #if ANY(LASER_FEATURE, SPINDLE_FEATURE)
-    #include "spindle_laser.h"
-  #endif
-
   millis_t Power::lastPowerOn;
-#endif
-
-#if PSU_TRACK_STATE_MS
-  millis_t Power::last_state_change_ms = 0;
 #endif
 
 /**
@@ -95,18 +83,9 @@ void Power::power_on() {
   #endif
 
   OUT_WRITE(PS_ON_PIN, PSU_ACTIVE_STATE);
-  #if ENABLED(PSU_OFF_REDUNDANT)
-    OUT_WRITE(PS_ON1_PIN, TERN_(PSU_OFF_REDUNDANT_INVERTED, !)PSU_ACTIVE_STATE);
-  #endif
-  TERN_(PSU_TRACK_STATE_MS, last_state_change_ms = millis());
-
   psu_on = true;
   safe_delay(PSU_POWERUP_DELAY);
-
   restore_stepper_drivers();
-
-  TERN_(MAX7219_REINIT_ON_POWERUP, max7219.init());
-
   TERN_(HAS_TRINAMIC_CONFIG, safe_delay(PSU_POWERUP_DELAY));
 
   #ifdef PSU_POWERUP_GCODE
@@ -134,11 +113,6 @@ void Power::power_off() {
   #endif
 
   OUT_WRITE(PS_ON_PIN, !PSU_ACTIVE_STATE);
-  #if ENABLED(PSU_OFF_REDUNDANT)
-    OUT_WRITE(PS_ON1_PIN, IF_DISABLED(PSU_OFF_REDUNDANT_INVERTED, !)PSU_ACTIVE_STATE);
-  #endif
-  TERN_(PSU_TRACK_STATE_MS, last_state_change_ms = millis());
-
   psu_on = false;
 
   #if ANY(POWER_OFF_TIMER, POWER_OFF_WAIT_FOR_COOLDOWN)
@@ -220,10 +194,6 @@ void Power::power_off() {
 
     #if ALL(USE_CONTROLLER_FAN, AUTO_POWER_CONTROLLERFAN)
       if (controllerFan.state()) return true;
-    #endif
-
-    #if ANY(LASER_FEATURE, SPINDLE_FEATURE)
-      if (TERN0(AUTO_POWER_SPINDLE_LASER, cutter.enabled())) return true;
     #endif
 
     if (TERN0(AUTO_POWER_CHAMBER_FAN, thermalManager.chamberfan_speed))

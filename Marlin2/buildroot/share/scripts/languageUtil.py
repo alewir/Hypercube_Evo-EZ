@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 #
-# languageUtil.py
+# marlang.py
 #
 
 # A dictionary to contain language names

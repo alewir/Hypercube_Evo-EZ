@@ -45,63 +45,41 @@
   #if PIN_EXISTS(MT_DET_2)
     bool mt_det2_sta;
   #endif
-  #if USE_X_MIN
-    bool endstopx1_min;
+  #if X_HOME_DIR
+    bool endstopx1_sta;
   #else
-    constexpr static bool endstopx1_min = true;
+    constexpr static bool endstopx1_sta = true;
   #endif
-  #if USE_X_MAX
-    bool endstopx1_max;
-  #else
-    constexpr static bool endstopx1_max = true;
-  #endif
-  #if USE_X2_MIN
+  #if USE_X2_MIN || USE_X2_MAX
     bool endstopx2_sta;
   #else
     constexpr static bool endstopx2_sta = true;
   #endif
-  #if USE_Y_MIN
+  #if HAS_Y_AXIS && Y_HOME_DIR
     bool endstopy1_sta;
   #else
     constexpr static bool endstopy1_sta = true;
   #endif
-  #if USE_Y2_MIN
+  #if USE_Y2_MIN || USE_Y2_MAX
     bool endstopy2_sta;
   #else
     constexpr static bool endstopy2_sta = true;
   #endif
-  #if USE_Z_MIN
-    bool endstopz1_min;
+  #if HAS_Z_AXIS && Z_HOME_DIR
+    bool endstopz1_sta;
   #else
-    constexpr static bool endstopz1_min = true;
-  #endif
-  #if USE_Z_MAX
-    bool endstopz1_max;
-  #else
-    constexpr static bool endstopz1_max = true;
+    constexpr static bool endstopz1_sta = true;
   #endif
   #if USE_Z2_MIN || USE_Z2_MAX
     bool endstopz2_sta;
   #else
     constexpr static bool endstopz2_sta = true;
   #endif
-  #if USE_Z3_MIN || USE_Z3_MAX
-    bool endstopz3_sta;
-  #else
-    constexpr static bool endstopz3_sta = true;
-  #endif
-  #if USE_Z4_MIN || USE_Z4_MAX
-    bool endstopz4_sta;
-  #else
-    constexpr static bool endstopz4_sta = true;
-  #endif
 
-  #define ESTATE(S) (READ(S##_PIN) == S##_ENDSTOP_HIT_STATE)
+  #define ESTATE(S) (READ(S##_PIN) != S##_ENDSTOP_INVERTING)
 
   void test_gpio_readlevel_L() {
-    #if PIN_EXISTS(WIFI_IO0)
-      WRITE(WIFI_IO0_PIN, HIGH);
-    #endif
+    WRITE(WIFI_IO0_PIN, HIGH);
     delay(10);
     pw_det_sta = (READ(MKS_TEST_POWER_LOSS_PIN) == LOW);
     pw_off_sta = (READ(MKS_TEST_PS_ON_PIN) == LOW);
@@ -109,34 +87,40 @@
     #if PIN_EXISTS(MT_DET_2)
       mt_det2_sta = (READ(MT_DET_2_PIN) == LOW);
     #endif
-    TERN_(USE_X_MIN, endstopx1_min = ESTATE(X_MIN));
-    TERN_(USE_X_MAX, endstopx1_max = ESTATE(X_MAX));
-    #if USE_X2_MIN || USE_X2_MAX
-      endstopx2_sta = ESTATE(TERN(USE_X2_MIN, X2_MIN, X2_MAX));
+    #if USE_X_MIN
+      endstopx1_sta = ESTATE(X_MIN);
+    #elif USE_X_MAX
+      endstopx1_sta = ESTATE(X_MAX);
     #endif
-    #if USE_Y_MIN || USE_Y_MAX
-      endstopy1_sta = ESTATE(TERN(USE_Y_MIN,   Y_MIN,  Y_MAX));
+    #if USE_X2_MIN
+      endstopx2_sta = ESTATE(X2_MIN);
+    #elif USE_X2_MAX
+      endstopx2_sta = ESTATE(X2_MAX);
     #endif
-    #if USE_Y2_MIN || USE_Y2_MAX
-      endstopy2_sta = ESTATE(TERN(USE_Y2_MIN, Y2_MIN, Y2_MAX));
+    #if USE_Y_MIN
+      endstopy1_sta = ESTATE(Y_MIN);
+    #elif USE_Y_MAX
+      endstopy1_sta = ESTATE(Y_MAX);
     #endif
-    TERN_(USE_Z_MIN, endstopz1_min = ESTATE(Z_MIN));
-    TERN_(USE_Z_MAX, endstopz1_max = ESTATE(Z_MAX));
-    #if USE_Z2_MIN || USE_Z2_MAX
-      endstopz2_sta = ESTATE(TERN(USE_Z2_MIN, Z2_MIN, Z2_MAX));
+    #if USE_Y2_MIN
+      endstopy2_sta = ESTATE(Y2_MIN);
+    #elif USE_Y2_MAX
+      endstopy2_sta = ESTATE(Y2_MAX);
     #endif
-    #if USE_Z3_MIN || USE_Z3_MAX
-      endstopz3_sta = ESTATE(TERN(USE_Z3_MIN, Z3_MIN, Z3_MAX));
+    #if USE_Z_MIN
+      endstopz1_sta = ESTATE(Z_MIN);
+    #elif USE_Z_MAX
+      endstopz1_sta = ESTATE(Z_MAX);
     #endif
-    #if USE_Z4_MIN || USE_Z4_MAX
-      endstopz4_sta = ESTATE(TERN(USE_Z4_MIN, Z4_MIN, Z4_MAX));
+    #if USE_Z2_MIN
+      endstopz2_sta = ESTATE(Z2_MIN);
+    #elif USE_Z2_MAX
+      endstopz2_sta = ESTATE(Z2_MAX);
     #endif
   }
 
   void test_gpio_readlevel_H() {
-    #if PIN_EXISTS(WIFI_IO0)
-      WRITE(WIFI_IO0_PIN, LOW);
-    #endif
+    WRITE(WIFI_IO0_PIN, LOW);
     delay(10);
     pw_det_sta = (READ(MKS_TEST_POWER_LOSS_PIN) == HIGH);
     pw_off_sta = (READ(MKS_TEST_PS_ON_PIN) == HIGH);
@@ -144,27 +128,35 @@
     #if PIN_EXISTS(MT_DET_2)
       mt_det2_sta = (READ(MT_DET_2_PIN) == HIGH);
     #endif
-    TERN_(USE_X_MIN, endstopx1_min = !ESTATE(X_MIN));
-    TERN_(USE_X_MAX, endstopx1_max = !ESTATE(X_MAX));
-    #if USE_X2_MIN || USE_X2_MAX
-      endstopx2_sta = !ESTATE(TERN(USE_X2_MIN, X2_MIN, X2_MAX));
+    #if USE_X_MIN
+      endstopx1_sta = !ESTATE(X_MIN);
+    #elif USE_X_MAX
+      endstopx1_sta = !ESTATE(X_MAX);
     #endif
-    #if USE_Y_MIN || USE_Y_MAX
-      endstopy1_sta = !ESTATE(TERN(USE_Y_MIN,   Y_MIN,  Y_MAX));
+    #if USE_X2_MIN
+      endstopx2_sta = !ESTATE(X2_MIN);
+    #elif USE_X2_MAX
+      endstopx2_sta = !ESTATE(X2_MAX);
     #endif
-    #if USE_Y2_MIN || USE_Y2_MAX
-      endstopy2_sta = !ESTATE(TERN(USE_Y2_MIN, Y2_MIN, Y2_MAX));
+    #if USE_Y_MIN
+      endstopy1_sta = !ESTATE(Y_MIN);
+    #elif USE_Y_MAX
+      endstopy1_sta = !ESTATE(Y_MAX);
     #endif
-    TERN_(USE_Z_MIN, endstopz1_min = !ESTATE(Z_MIN));
-    TERN_(USE_Z_MAX, endstopz1_max = !ESTATE(Z_MAX));
-    #if USE_Z2_MIN || USE_Z2_MAX
-      endstopz2_sta = !ESTATE(TERN(USE_Z2_MIN, Z2_MIN, Z2_MAX));
+    #if USE_Y2_MIN
+      endstopy2_sta = !ESTATE(Y2_MIN);
+    #elif USE_Y2_MAX
+      endstopy2_sta = !ESTATE(Y2_MAX);
     #endif
-    #if USE_Z3_MIN || USE_Z3_MAX
-      endstopz3_sta = !ESTATE(TERN(USE_Z3_MIN, Z3_MIN, Z3_MAX));
+    #if USE_Z_MIN
+      endstopz1_sta = !ESTATE(Z_MIN);
+    #elif USE_Z_MAX
+      endstopz1_sta = !ESTATE(Z_MAX);
     #endif
-    #if USE_Z4_MIN || USE_Z4_MAX
-      endstopz4_sta = !ESTATE(TERN(USE_Z4_MIN, Z4_MIN, Z4_MAX));
+    #if USE_Z2_MIN
+      endstopz2_sta = !ESTATE(Z2_MIN);
+    #elif USE_Z2_MAX
+      endstopz2_sta = !ESTATE(Z2_MAX);
     #endif
   }
 
@@ -173,9 +165,7 @@
   void init_test_gpio() {
     endstops.init();
 
-    #if PIN_EXISTS(WIFI_IO0)
-      SET_OUTPUT(WIFI_IO0_PIN);
-    #endif
+    SET_OUTPUT(WIFI_IO0_PIN);
 
     #if PIN_EXISTS(MT_DET_1)
       SET_INPUT_PULLUP(MT_DET_1_PIN);
@@ -243,7 +233,7 @@
       else
         disp_det_error();
 
-      if (endstopx1_min && endstopx1_max && endstopy1_sta && endstopz1_min && endstopz1_max && endstopz2_sta && endstopz3_sta && endstopz4_sta)
+      if (endstopx1_sta && endstopy1_sta && endstopz1_sta && endstopz2_sta)
         disp_Limit_ok();
       else
         disp_Limit_error();
@@ -305,9 +295,7 @@
         #endif
       }
 
-      if ( endstopx1_min && endstopx1_max && endstopx2_sta && endstopy1_sta && endstopy2_sta
-        && endstopz1_min && endstopz1_max && endstopz2_sta && endstopz3_sta && endstopz4_sta
-      ) {
+      if (endstopx1_sta && endstopx2_sta && endstopy1_sta && endstopy2_sta && endstopz1_sta && endstopz2_sta) {
         // nothing here
       }
       else {
@@ -733,7 +721,7 @@ void disp_assets_update_progress(FSTR_P const fmsg) {
     static constexpr int buflen = 30;
     char buf[buflen];
     memset(buf, ' ', buflen);
-    strlcpy_P(buf, FTOP(fmsg), buflen);
+    strncpy_P(buf, FTOP(fmsg), buflen - 1);
     disp_string(100, 165, buf, 0xFFFF, 0x0000);
   #else
     disp_string(100, 165, FTOP(fmsg), 0xFFFF, 0x0000);

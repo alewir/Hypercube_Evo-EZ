@@ -22,7 +22,7 @@
 
 #include "../../inc/MarlinConfig.h"
 
-#if ENABLED(AUTO_REPORT_TEMPERATURES)
+#if ALL(AUTO_REPORT_TEMPERATURES, HAS_TEMP_SENSOR)
 
 #include "../gcode.h"
 #include "../../module/temperature.h"
@@ -37,4 +37,4 @@ void GcodeSuite::M155() {
 
 }
 
-#endif // AUTO_REPORT_TEMPERATURES
+#endif // AUTO_REPORT_TEMPERATURES && HAS_TEMP_SENSOR

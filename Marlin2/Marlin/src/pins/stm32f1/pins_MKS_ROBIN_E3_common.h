@@ -65,13 +65,6 @@
 #endif
 
 //
-// Probe enable
-//
-#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
-  #define PROBE_ENABLE_PIN            SERVO0_PIN
-#endif
-
-//
 // Steppers
 //
 #define X_STEP_PIN                          PC0
@@ -252,15 +245,16 @@
 #endif
 
 // LED driving pin
-#ifndef BOARD_NEOPIXEL_PIN
-  #define BOARD_NEOPIXEL_PIN                PA2
+#ifndef NEOPIXEL_PIN
+  #define NEOPIXEL_PIN                      PA2
 #endif
 
 //
 // SD Card
 //
 #define SDCARD_CONNECTION                ONBOARD
-#define ONBOARD_SPI_DEVICE                     2  // Maple
+#define SPI_DEVICE                             2  // Maple
+#define ONBOARD_SPI_DEVICE                     2
 #define SDSS                           SD_SS_PIN
 #define ONBOARD_SD_CS_PIN              SD_SS_PIN
 #define SD_DETECT_PIN                EXP2_07_PIN

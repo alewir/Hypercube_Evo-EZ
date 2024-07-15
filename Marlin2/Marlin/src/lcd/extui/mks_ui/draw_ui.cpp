@@ -631,7 +631,7 @@ char *creat_title_text() {
         p_index = (uint16_t *)(&bmp_public_buf[i]);
         if (*p_index == 0x0000) *p_index = LV_COLOR_BACKGROUND.full;
       }
-      SPI_TFT.tftio.writeSequence((uint16_t*)bmp_public_buf, 200);
+      SPI_TFT.tftio.WriteSequence((uint16_t*)bmp_public_buf, 200);
       #if HAS_BAK_VIEW_IN_FLASH
         W25QXX.init(SPI_QUARTER_SPEED);
         if (row < 20) W25QXX.SPI_FLASH_SectorErase(BAK_VIEW_ADDR_TFT35 + row * 4096);
@@ -660,8 +660,12 @@ char *creat_title_text() {
         card.openFileRead(cur_name);
         if (card.isFileOpen()) {
           feedrate_percentage = 100;
-          TERN_(HAS_EXTRUDERS, planner.set_flow(0, 100));
-          TERN_(HAS_MULTI_EXTRUDER, planner.set_flow(1, 100));
+          planner.flow_percentage[0] = 100;
+          planner.e_factor[0]        = planner.flow_percentage[0] * 0.01;
+          #if HAS_MULTI_EXTRUDER
+            planner.flow_percentage[1] = 100;
+            planner.e_factor[1]        = planner.flow_percentage[1] * 0.01;
+          #endif
           card.startOrResumeFilePrinting();
           TERN_(POWER_LOSS_RECOVERY, recovery.prepare());
           once_flag = false;
@@ -688,7 +692,7 @@ char *creat_title_text() {
       #endif
 
       SPI_TFT.setWindow(xpos_pixel, y_off * 20 + ypos_pixel, 200, 20); // 200*200
-      SPI_TFT.tftio.writeSequence((uint16_t*)(bmp_public_buf), DEFAULT_VIEW_MAX_SIZE / 20);
+      SPI_TFT.tftio.WriteSequence((uint16_t*)(bmp_public_buf), DEFAULT_VIEW_MAX_SIZE / 20);
 
       y_off++;
     }
@@ -766,7 +770,7 @@ void GUI_RefreshPage() {
         disp_print_time();
         disp_fan_Zpos();
       }
-      if (printing_rate_update_flag || marlin_state == MarlinState::MF_SD_COMPLETE) {
+      if (printing_rate_update_flag || marlin_state == MF_SD_COMPLETE) {
         printing_rate_update_flag = false;
         if (!gcode_preview_over) setProBarRate();
       }
@@ -947,7 +951,7 @@ void clear_cur_ui() {
     case MAXFEEDRATE_UI:              lv_clear_max_feedrate_settings(); break;
     case STEPS_UI:                    lv_clear_step_settings(); break;
     case ACCELERATION_UI:             lv_clear_acceleration_settings(); break;
-    case JERK_UI:                     TERN_(CLASSIC_JERK, lv_clear_jerk_settings()); break;
+    case JERK_UI:                     TERN_(HAS_CLASSIC_JERK, lv_clear_jerk_settings()); break;
     case MOTORDIR_UI:                 break;
     case HOMESPEED_UI:                break;
     case NOZZLE_CONFIG_UI:            break;
@@ -1055,11 +1059,9 @@ void draw_return_ui() {
       case DELTA_LEVELING_PARA_UI:      break;
       case MANUAL_LEVELING_POSITION_UI: lv_draw_tramming_pos_settings(); break;
       case MAXFEEDRATE_UI:              lv_draw_max_feedrate_settings(); break;
-      #if ENABLED(EDITABLE_STEPS_PER_UNIT)
-        case STEPS_UI:                  lv_draw_step_settings(); break;
-      #endif
+      case STEPS_UI:                    lv_draw_step_settings(); break;
       case ACCELERATION_UI:             lv_draw_acceleration_settings(); break;
-      #if ENABLED(CLASSIC_JERK)
+      #if HAS_CLASSIC_JERK
         case JERK_UI:                   lv_draw_jerk_settings(); break;
       #endif
       case MOTORDIR_UI:                 break;

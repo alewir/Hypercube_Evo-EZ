@@ -23,6 +23,7 @@
 
 /**
  * AZSMZ MINI pin assignments
+ * Schematic: http://green-candy.osdn.jp/external/MarlinFW/board_schematics/AZSMZ%20MINI/AZSMZ.svg
  * Source: https://raw.githubusercontent.com/Rose-Fish/AZSMZ-mini/master/AZSMZ.sch
  */
 
@@ -95,7 +96,7 @@
   #define BTN_EN1                          P4_28
   #define BTN_EN2                          P1_27
   #define BTN_ENC                          P3_26
-  #if !defined(SDCARD_CONNECTION) && DISABLED(NO_LCD_SDCARD)
+  #ifndef SDCARD_CONNECTION
     #define SDCARD_CONNECTION                LCD
   #endif
 #endif

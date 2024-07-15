@@ -23,7 +23,8 @@
 
 /**
  * RUMBA pin assignments
- * Schematic: https://reprap.org/wiki/File:RRD-RUMBA_SCHEMATICS.png
+ * Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/RAMPS/RUMBA/RRD-RUMBA_SCHEMATICS.png
+ * Origin: https://reprap.org/wiki/File:RRD-RUMBA_SCHEMATICS.png
  * ATmega2560
  */
 

@@ -23,7 +23,8 @@
 
 /**
  * MKS SGen-L V2 pin assignments
- * Schematic: https://github.com/makerbase-mks/MKS-SGEN_L-V2/blob/master/Hardware/MKS%20SGEN_L%20V2.0_003/MKS%20SGEN_L%20V2.0_003%20SCH.pdf
+ * Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/MKS%20SGEN_L%20V2/MKS%20SGEN_L%20V2.0_003%20SCH.pdf
+ * Origin: https://github.com/makerbase-mks/MKS-SGEN_L-V2/blob/master/Hardware/MKS%20SGEN_L%20V2.0_003/MKS%20SGEN_L%20V2.0_003%20SCH.pdf
  */
 
 #include "env_validate.h"
@@ -100,13 +101,6 @@
 //
 #ifndef Z_MIN_PROBE_PIN
   #define Z_MIN_PROBE_PIN                  P1_24
-#endif
-
-//
-// Probe enable
-//
-#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
-  #define PROBE_ENABLE_PIN            SERVO0_PIN
 #endif
 
 //

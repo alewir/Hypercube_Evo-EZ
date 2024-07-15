@@ -23,7 +23,8 @@
 
 /**
  * Anet V1.0 board pin assignments
- * Schematic: https://github.com/ralf-e/ANET-3D-Board-V1.0/blob/master/ANET3D_Board_Schematic.pdf
+ * Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/Anet%20V1.0/ANET3D_Board_Schematic.pdf
+ * Origin: https://github.com/ralf-e/ANET-3D-Board-V1.0/blob/master/ANET3D_Board_Schematic.pdf
  */
 
 /**
@@ -184,7 +185,7 @@
  * Only the following displays are supported:
  *  ZONESTAR_LCD
  *  ANET_FULL_GRAPHICS_LCD
- *  CTC_A10S_A13
+ *  ANET_FULL_GRAPHICS_LCD_ALT_WIRING
  *  REPRAP_DISCOUNT_FULL_GRAPHIC_SMART_CONTROLLER
  */
 
@@ -209,10 +210,10 @@
     // display using an adapter board. See https://go.aisler.net/benlye/anet-lcd-adapter/pcb
     // See below for alternative pin definitions for use with https://www.thingiverse.com/thing:2103748
 
-    #if ENABLED(CTC_A10S_A13)
+    #if ENABLED(ANET_FULL_GRAPHICS_LCD_ALT_WIRING)
 
       /**
-       * CTC_A10S_A13 pinout
+       * ANET_FULL_GRAPHICS_LCD_ALT_WIRING pinout
        *
        *           ------
        *      GND | 1  2 | 5V

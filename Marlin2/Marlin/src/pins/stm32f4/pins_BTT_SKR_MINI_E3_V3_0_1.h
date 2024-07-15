@@ -70,13 +70,6 @@
 #define Z_MIN_PROBE_PIN                     PA1   // PROBE
 
 //
-// Probe enable
-//
-#if ENABLED(PROBE_ENABLE_DISABLE) && !defined(PROBE_ENABLE_PIN)
-  #define PROBE_ENABLE_PIN            SERVO0_PIN
-#endif
-
-//
 // Filament Runout Sensor
 //
 #ifndef FIL_RUNOUT_PIN
@@ -90,8 +83,8 @@
   #define POWER_LOSS_PIN                    PC13  // Power Loss Detection: PWR-DET
 #endif
 
-#ifndef BOARD_NEOPIXEL_PIN
-  #define BOARD_NEOPIXEL_PIN                PA14  // LED driving pin
+#ifndef NEOPIXEL_PIN
+  #define NEOPIXEL_PIN                      PA14  // LED driving pin
 #endif
 
 #ifndef PS_ON_PIN
@@ -140,10 +133,6 @@
   #ifndef E0_SLAVE_ADDRESS
     #define E0_SLAVE_ADDRESS                   3
   #endif
-  static_assert(X_SLAVE_ADDRESS == 0, "X_SLAVE_ADDRESS must be 0 for BOARD_BTT_SKR_MINI_E3_V3_0_1.");
-  static_assert(Y_SLAVE_ADDRESS == 2, "Y_SLAVE_ADDRESS must be 2 for BOARD_BTT_SKR_MINI_E3_V3_0_1.");
-  static_assert(Z_SLAVE_ADDRESS == 1, "Z_SLAVE_ADDRESS must be 1 for BOARD_BTT_SKR_MINI_E3_V3_0_1.");
-  static_assert(E0_SLAVE_ADDRESS == 3, "E0_SLAVE_ADDRESS must be 3 for BOARD_BTT_SKR_MINI_E3_V3_0_1.");
 #endif
 
 //
@@ -218,7 +207,9 @@
 
   #elif ENABLED(ZONESTAR_LCD)                     // ANET A8 LCD Controller - Must convert to 3.3V - CONNECTING TO 5V WILL DAMAGE THE BOARD!
 
-    CONTROLLER_WARNING("BTT_SKR_MINI_E3_V3_0_1", "ZONESTAR_LCD")
+    #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+      #error "CAUTION! ZONESTAR_LCD requires wiring modifications. See 'pins_BTT_SKR_MINI_E3_common.h' for details. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+    #endif
 
     #define LCD_PINS_RS              EXP1_06_PIN
     #define LCD_PINS_EN              EXP1_02_PIN
@@ -246,7 +237,9 @@
 
     #if ENABLED(TFTGLCD_PANEL_SPI)
 
-      CONTROLLER_WARNING("BTT_SKR_MINI_E3_V3_0_1", "TFTGLCD_PANEL_SPI")
+      #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+        #error "CAUTION! TFTGLCD_PANEL_SPI requires wiring modifications. See 'pins_BTT_SKR_MINI_E3_common.h' for details. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+      #endif
 
       /**
        * TFTGLCD_PANEL_SPI display pinout
@@ -289,7 +282,9 @@
 
 #if ALL(TOUCH_UI_FTDI_EVE, LCD_FYSETC_TFT81050)
 
-  CONTROLLER_WARNING("BTT_SKR_MINI_E3_V3_0_1", "LCD_FYSETC_TFT81050")
+  #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+    #error "CAUTION! LCD_FYSETC_TFT81050 requires wiring modifications. See 'pins_BTT_SKR_MINI_E3_common.h' for details. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+  #endif
 
   /**
    * FYSETC TFT TFT81050 display pinout

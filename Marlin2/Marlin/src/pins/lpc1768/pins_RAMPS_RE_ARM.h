@@ -23,7 +23,8 @@
 
 /**
  * Re-ARM with RAMPS v1.4 pin assignments
- * Schematic: https://reprap.org/mediawiki/images/f/fa/Re_ARM_Schematic.pdf
+ * Schematic: https://green-candy.osdn.jp/external/MarlinFW/board_schematics/Re-ARM%20RAMPS%201.4/Re_ARM_Schematic.pdf
+ * Origin: https://reprap.org/mediawiki/images/f/fa/Re_ARM_Schematic.pdf
  *
  * Applies to the following boards:
  *
@@ -307,7 +308,9 @@
 
 #elif ENABLED(ZONESTAR_LCD)
 
-  CONTROLLER_WARNING("RAMPS_RE_ARM", "ZONESTAR_LCD", " ADCs are not 5V tolerant.")
+  #ifndef NO_CONTROLLER_CUSTOM_WIRING_WARNING
+    #error "CAUTION! ZONESTAR_LCD on REARM requires wiring modifications. NB. ADCs are not 5V tolerant. See 'pins_RAMPS_RE_ARM.h' for details. (Define NO_CONTROLLER_CUSTOM_WIRING_WARNING to suppress this warning.)"
+  #endif
 
 #elif IS_TFTGLCD_PANEL
 

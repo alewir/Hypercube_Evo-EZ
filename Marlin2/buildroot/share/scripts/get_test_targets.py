@@ -5,7 +5,7 @@ Extract the builds used in Github CI, so that we can run them locally
 import yaml
 
 # Set the yaml file to parse
-yaml_file = '.github/workflows/ci-build-tests.yml'
+yaml_file = '.github/workflows/test-builds.yml'
 
 # Parse the yaml file, and load it into a dictionary (github_configuration)
 with open(yaml_file) as f:
