@@ -199,6 +199,8 @@
 #define TEMP_2_PIN PC3	 // TH2
 #define TEMP_BED_PIN PC0 // TB
 
+#define TEMP_CHAMBER_PIN TEMP_1_PIN//alwi
+
 //#define MAX31865_USE_SW_SPI
 //#ifndef MAX31865_CS_PIN
 //#define MAX31865_SW_MISO_PIN           PE13
