@@ -17,4 +17,4 @@ I'm building a 3d printer that allows quite convinient access too all components
 * X/Y endstops are optical
 * Z uses a sexbolt to auto-calibrate the klicky probe offset
 
-Here is some preview: https://photos.app.goo.gl/oEmggmtv33Dq1pdY6
+Here is some preview: [here on yt](https://www.youtube.com/shorts/g4zk68t5uF8)
