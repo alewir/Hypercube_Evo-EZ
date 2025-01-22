@@ -9,7 +9,7 @@ I'm building a 3d printer that allows quite convinient access too all components
 * the enclosure is acrylic
 * it uses 3 point auto leveling
 * it has a klicky probe
-* it uses BTT Eddy v1 Coil for rapid platform scan
+* it uses BTT Eddy v1 Coil for rapid platform scan (WIP: due to https://klipper.discourse.group/t/introduce-pin-probe-for-enhanced-multi-probe-compatibility-6663/19747)
 * controlled by Klipper
 * printhead is controlled over CAN
 * uses only very silent fans
